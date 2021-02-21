@@ -1,6 +1,6 @@
 # Cortex Command Community Project Source
 *The Cortex Command Community Project is Free/Libre and Open Source under GNU AGPL v3*
-![Linux Build](https://github.com/cortex-command-community/Cortex-Command-Community-Project-Source/actions/workflows/meson.yml/badge.svg)
+![Linux Build](https://github.com/HeliumAnt/Cortex-Command-Community-Project-Source/actions/workflows/meson.yml/badge.svg)
 
 This is a community-driven effort to continue the development of Cortex Command.  
 Stay up to date in our [Discord channel](https://discord.gg/SdNnKJN).

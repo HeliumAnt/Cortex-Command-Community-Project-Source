@@ -30,19 +30,7 @@ jobs:
         run: |
           sudo apt-get update -yq
           sudo apt-get install --no-install-recommends liballegro4-dev libloadpng4-dev libflac++-dev luajit-5.1-dev libminizip-dev liblz4-dev libpng++-dev libx11-dev libboost-dev
-
-      - name: Install Clang
-        # You may pin to the exact commit or the version.
-        # uses: egor-tensin/setup-clang@d16e36d5f8a7eb00aa6627c1a536d94dfc4a913d
-        uses: egor-tensin/setup-clang@v1
-        with:
-          # Set up cc/c++ executables
-          cc: 1 # optional, default is 1
-      - name: Setup ccache
-        # You may pin to the exact commit or the version.
-        # uses: alexjurkiewicz/setup-ccache@411d41a94dc67522f8aea0dbb5362240aaf31523
-        uses: alexjurkiewicz/setup-ccache@v1.0.0
-
+ 
       - name: Cache
         uses: actions/cache@v2.1.4
         with:
@@ -53,6 +41,24 @@ jobs:
           # An explicit key for restoring and saving the cache
           key: ${{runner.os}}-build
 
+      - name: Install Clang
+        # You may pin to the exact commit or the version.
+        # uses: egor-tensin/setup-clang@d16e36d5f8a7eb00aa6627c1a536d94dfc4a913d
+        uses: egor-tensin/setup-clang@v1
+        with:
+          # Set up cc/c++ executables
+          cc: 1 # optional, default is 1
+ 
+      - name: Setup ccache
+        # You may pin to the exact commit or the version.
+        # uses: alexjurkiewicz/setup-ccache@411d41a94dc67522f8aea0dbb5362240aaf31523
+        uses: alexjurkiewicz/setup-ccache@v1.0.0
+      - name: Restore Previous Build
+        uses: actions/download-artifact@v2
+        with:
+          name: meson-build-artifacts
+          path: build
+          
       - name: Build
         # You may pin to the exact commit or the version.
         # uses: BSFishy/meson-build@6f1930d878fd3eed3853c1c91285ec604c37f3a5
@@ -60,3 +66,9 @@ jobs:
         with:
           # The action to run
           action: build
+
+      - name: Store Build Artifacts
+        uses: actions/upload-artifacts@v2
+        with:
+          name: meson-build-artifacts
+          path: build

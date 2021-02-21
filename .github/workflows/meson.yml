@@ -38,12 +38,18 @@ jobs:
         with:
           # Set up cc/c++ executables
           cc: 1 # optional, default is 1
+      - name: Setup ccache
+        # You may pin to the exact commit or the version.
+        # uses: alexjurkiewicz/setup-ccache@411d41a94dc67522f8aea0dbb5362240aaf31523
+        uses: alexjurkiewicz/setup-ccache@v1.0.0
 
       - name: Cache
         uses: actions/cache@v2.1.4
         with:
           # A list of files, directories, and wildcard patterns to cache and restore
-          path: build
+          path: |
+            ~/.cache
+            ~/.ccache
           # An explicit key for restoring and saving the cache
           key: ${{runner.os}}-build
 

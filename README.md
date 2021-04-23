@@ -5,7 +5,7 @@
 ![Windows Build](https://github.com/HeliumAnt/Cortex-Command-Community-Project-Source/actions/workflows/msbuild.yml/badge.svg)
 
 This is a community-driven effort to continue the development of Cortex Command.  
-Stay up to date in our [Discord channel](https://discord.gg/SdNnKJN).
+Stay up to date in our [Discord channel](https://discord.gg/TSU6StNQUG).
 
 ***
 wheeeeeeeee

@@ -7,7 +7,7 @@
 #ifdef _WIN32
 #define DebuggerBreak __debugbreak();
 #else
-#define DebuggerBreak ;
+#define DebuggerBreak  std::exit(EXIT_FAILURE);
 #endif
 
 #ifndef RELEASE_BUILD

@@ -12,10 +12,10 @@ namespace RTE {
 
 #pragma region Creation
 		/// <summary>
-		/// Constructor method used to instantiate a System object in system memory. 
+		/// Constructor method used to instantiate a System object in system memory.
 		/// Should never be called directly, since g_System is an extern linked global that should be used by everything trying to use System.
 		/// </summary>
-		System() { m_LogToCLI = false; }
+		System() { m_LogToCLI = true; }
 #pragma endregion
 
 #pragma region Directories

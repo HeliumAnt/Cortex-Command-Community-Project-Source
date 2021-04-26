@@ -16,6 +16,8 @@
 
 #ifdef __unix__
 #include <X11/Xlib.h>
+#include <allegro.h>
+#include <xalleg.h>
 #endif
 
 extern bool g_InActivity;
@@ -26,11 +28,29 @@ namespace RTE {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void FrameMan::DisplaySwitchOut(void) { g_UInputMan.DisableMouseMoving(true); }
+	void FrameMan::DisplaySwitchOut(void) { g_UInputMan.DisableMouseMoving(true);
+    GrabFocusFullscreen();
+  }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void FrameMan::DisplaySwitchIn(void) { g_UInputMan.DisableMouseMoving(false); }
+	void FrameMan::DisplaySwitchIn(void) { g_UInputMan.DisableMouseMoving(false);
+    GrabFocusFullscreen();
+  }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  void FrameMan::UngrabKeyboardMouse(){
+    if(_xwin.keyboard_grabbed)
+      XUngrabKeyboard(_xwin.display, CurrentTime);
+    if(_xwin.mouse_grabbed)
+      XUngrabPointer(_xwin.display, CurrentTime);
+  }
+
+  void FrameMan::GrabFocusFullscreen(){
+    if(_xwin.fs_window)
+      XSetInputFocus(_xwin.display, _xwin.window, RevertToPointerRoot, CurrentTime);
+  }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -45,12 +65,8 @@ namespace RTE {
 		m_PrimaryScreenResY = GetSystemMetrics(SM_CYSCREEN);
 #elif __unix__
 		m_NumScreens = 1;
-		Display *dpy = XOpenDisplay(NULL);
-		XWindowAttributes ra;
-		XGetWindowAttributes(dpy, DefaultRootWindow(dpy), &ra);
-		m_ScreenResX = m_PrimaryScreenResX = ra.width;
-		m_ScreenResY = m_PrimaryScreenResY = ra.height;
-		XCloseDisplay(dpy);
+		m_ScreenResX = m_PrimaryScreenResX = DisplayWidth(_xwin.display, _xwin.screen);
+		m_ScreenResY = m_PrimaryScreenResY = DisplayHeight(_xwin.display, _xwin.screen);
 #endif
 		m_ResX = 960;
 		m_ResY = 540;
@@ -267,6 +283,9 @@ namespace RTE {
 
 		ContentFile scenePreviewGradientFile("Base.rte/GUIs/PreviewSkyGradient.png");
 		m_ScenePreviewDumpGradient = scenePreviewGradientFile.GetAsBitmap(COLORCONV_8_TO_32, false);
+
+    GrabFocusFullscreen();
+    UngrabKeyboardMouse();
 
 		return 0;
 	}
@@ -490,6 +509,9 @@ namespace RTE {
 		g_ConsoleMan.PrintString("SYSTEM: Switched to different windowed mode multiplier.");
 		g_SettingsMan.UpdateSettingsFile();
 
+    GrabFocusFullscreen();
+    UngrabKeyboardMouse();
+
 		FlipFrameBuffers();
 		return 0;
 	}
@@ -563,6 +585,9 @@ namespace RTE {
 
 		g_ConsoleMan.PrintString("SYSTEM: Switched to different resolution.");
 		g_SettingsMan.UpdateSettingsFile();
+
+    GrabFocusFullscreen();
+    UngrabKeyboardMouse();
 
 		m_ResChanged = true;
 		return 0;

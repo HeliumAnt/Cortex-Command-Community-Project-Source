@@ -669,6 +669,17 @@ namespace RTE {
 		/// </summary>
 		void SetGraphicsDriver();
 
+    /// <summary>
+    /// Ungrabs the keyboard and mouse to avoid system hardlocks
+    /// </summary>
+    static void UngrabKeyboardMouse();
+
+    /// <summary>
+    /// Return the focus to the fullscreen window if the game hasn't crashed
+    /// because otherwise it stays on top of the screen without a way to return to the game
+    /// </summary>
+    static void GrabFocusFullscreen();
+
 		/// <summary>
 		/// Checks whether the passed in resolution settings make sense. If not, overrides them to prevent crashes or unexpected behavior. This is called during Create().
 		/// </summary>

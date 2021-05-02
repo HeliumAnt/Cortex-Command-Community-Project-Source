@@ -58,12 +58,15 @@ jobs:
         with:
           # The action to run
           action: build
+          setup: --buildtype=debug -Ddebug_type="full" -Dcpp_args="['-DRELASE_BUILD', '-DDEBUG_BUILD', '-DDEBUG_RELEASE_BUILD']"
 
 
   build-windows:
     env:
       # Path to the solution file relative to the root of the project.
       SOLUTION_FILE_PATH: .
+      
+      CL: /DDEBUG_RELEASE_BUILD /DDEBUG_BUILD /DRELEASE_BUILD
 
       # Configuration type to build.
       # You can convert this to a build matrix if you need coverage of multiple configuration types.
